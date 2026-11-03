@@ -21,3 +21,8 @@ Nomes, Manifest, Paletas, Central Java, Central Bedrock, Guia de FPS.
 - `sitemap.xml` e `robots.txt` estão na raiz do projeto. Em site de projeto no GitHub Pages (`usuario.github.io/projeto/`), os buscadores só leem o `robots.txt` da raiz do domínio; envie o `sitemap.xml` no Google Search Console.
 - Os espaços "Espaço reservado para Google AdSense (inativo)" são apenas marcação. O AdSense NÃO está integrado: exige aprovação do Google e página de privacidade atualizada.
 - `404.html` usa o caminho `/ysharkx7-tools/`. Se mudar o nome do repositório ou usar domínio próprio, ajuste esse caminho.
+
+## Pack Studio
+`tools/pack-studio.html` + `js/ps-core.js` (ZIP, validação, conversão) + `js/ps-ui.js` (interface) + `css/pack-studio.css`.
+Projetos ficam no IndexedDB do navegador (limite depende do aparelho; limpar dados do site apaga tudo). Exporte o ZIP para ter backup.
+Importar/exportar ZIP usa DecompressionStream/CompressionStream (Chrome/Edge/Firefox/Safari atuais).

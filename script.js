@@ -2,6 +2,7 @@
 const R = document.body.dataset.root || "";
 const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const TOOLS = [
+  {n:"YSHARKX7 Pack Studio",d:"Editor de pacotes: ZIP, PNG, manifest, conversor Java→Bedrock, exportar .mcpack.",u:"tools/pack-studio.html",i:"🧩",t:"Java e Bedrock",k:"editor textura pack zip mcpack resource conversor"},
   {n:"Gerador de Nomes",d:"Nomes com estilos, prefixos e códigos de cor.",u:"tools/nomes.html",i:"✨",t:"Java e Bedrock",k:"nick apelido gamertag cores"},
   {n:"Gerador de Manifest Bedrock",d:"manifest.json válido com UUIDs automáticos.",u:"tools/manifest.html",i:"📦",t:"Bedrock",k:"json uuid addon pack"},
   {n:"Paletas de Cores",d:"Paletas aleatórias ou manuais com HEX.",u:"tools/paletas.html",i:"🎨",t:"Java e Bedrock",k:"cor hex paleta"},
