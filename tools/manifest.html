@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gerador de manifest.json Bedrock — YSHARKX7 Tools</title><meta name="description" content="Gere um manifest.json para resource pack ou behavior pack do Minecraft Bedrock com UUIDs automáticos. Copie ou baixe.">
+<link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap">
+<h1 style="margin-top:36px">Gerador de manifest.json Bedrock</h1><p style="color:var(--mut)">Gera o arquivo de identificação do seu pack, com UUIDs únicos.</p>
+<div class="tool"><div class="card">
+<label for="nome">Nome do pacote</label><input id="nome" value="Meu Resource Pack" maxlength="60">
+<label for="desc">Descrição</label><textarea id="desc" rows="2" maxlength="160">Criado com YSHARKX7 Tools</textarea>
+<label for="tipo">Tipo de pacote</label><select id="tipo"><option value="resources">Resource Pack (texturas, sons, UI)</option><option value="data">Behavior Pack (comportamentos)</option></select>
+<label for="ver">Versão do pacote</label><input id="ver" value="1.0.0" inputmode="numeric">
+<label for="min">Versão mínima do Minecraft</label><input id="min" value="1.20.0" inputmode="numeric">
+<div class="row"><button class="btn sec" id="novo">Gerar novos UUIDs</button></div>
+<p class="note">Cada pack precisa de UUIDs únicos. Gere novos para cada pacote e não reutilize os de outros packs.</p></div>
+<div class="card"><h3 style="margin-top:0">manifest.json</h3><pre class="out" id="out" aria-live="polite"></pre>
+<div class="row"><button class="btn" id="cp">Copiar JSON</button><button class="btn sec" id="dl">Baixar manifest.json</button></div>
+<p class="note">Coloque o arquivo na raiz da pasta do pack e teste no seu Minecraft antes de distribuir. Veja o <a href="../pages/tutorial-manifest.html">tutorial</a>.</p></div></div></main>
+<script src="../script.js"></script>
+<script>
+const $=id=>document.getElementById(id);let U={h:uuid(),m:uuid()},cur="";
+function ver(s,n){const p=s.trim().split(".");if(p.length!==3||p.some(x=>!/^\d+$/.test(x)))throw new Error(n+" deve ter o formato 1.0.0 (três números separados por ponto).");return p.map(Number)}
+function montar(){try{const nome=$("nome").value.trim();if(!nome)throw new Error("Informe o nome do pacote.");
+ const v=ver($("ver").value,"A versão do pacote"),m=ver($("min").value,"A versão mínima do Minecraft");
+ cur=JSON.stringify({format_version:2,header:{name:nome,description:$("desc").value.trim(),uuid:U.h,version:v,min_engine_version:m},modules:[{type:$("tipo").value,uuid:U.m,version:v}]},null,2);
+ $("out").textContent=cur;return true}catch(e){$("out").textContent="Erro: "+e.message;cur="";return false}}
+["nome","desc","tipo","ver","min"].forEach(i=>$(i).addEventListener("input",montar));
+$("novo").onclick=()=>{U={h:uuid(),m:uuid()};if(montar())toast("Novos UUIDs gerados.")};
+$("cp").onclick=()=>{if(montar())copiar(cur);else toast("Corrija os campos antes de copiar.",1)};
+$("dl").onclick=()=>{if(montar())baixar("manifest.json",cur);else toast("Corrija os campos antes de baixar.",1)};
+montar();
+</script></body></html>

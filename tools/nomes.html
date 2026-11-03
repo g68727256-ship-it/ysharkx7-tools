@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gerador de Nomes Minecraft com Cores — YSHARKX7 Tools</title><meta name="description" content="Gere nomes para Minecraft com estilos, prefixos, sufixos e códigos de cor (§ e &). Copie com um toque.">
+<link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap">
+<h1 style="margin-top:36px">Gerador de Nomes Minecraft</h1><p style="color:var(--mut)">Escolha um estilo, personalize e copie. A prévia mostra a cor escolhida.</p>
+<div class="tool"><div class="card">
+<label for="estilo">Estilo</label><select id="estilo"><option value="sombrio">Sombrio</option><option value="fofo">Fofo</option><option value="epico">Épico</option><option value="tech">Tech</option><option value="natureza">Natureza</option></select>
+<label for="pre">Prefixo (opcional)</label><input id="pre" maxlength="10" placeholder="Ex.: xX">
+<label for="suf">Sufixo (opcional)</label><input id="suf" maxlength="10" placeholder="Ex.: 07">
+<label for="cor">Cor</label><select id="cor"></select>
+<label for="fmt">Formato do código de cor</label><select id="fmt"><option value="§">§ (padrão do jogo)</option><option value="&">&amp; (plugins e servidores)</option></select>
+<label><input type="checkbox" id="neg" style="width:auto"> Negrito (l)</label>
+<div class="row"><button class="btn" id="ger">Gerar novos nomes</button></div>
+<p class="note">Nomes de conta Java têm limite de 16 caracteres e não aceitam códigos de cor. Os códigos servem para chat, placas, MOTD e plugins que os suportem.</p></div>
+<div class="card"><h3 style="margin-top:0">Resultados</h3><ul class="names" id="res"></ul></div></div></main>
+<script src="../script.js"></script>
+<script>
+const CORES={"0":["Preto","#000000"],"1":["Azul escuro","#0000AA"],"2":["Verde escuro","#00AA00"],"3":["Ciano escuro","#00AAAA"],"4":["Vermelho escuro","#AA0000"],"5":["Roxo","#AA00AA"],"6":["Dourado","#FFAA00"],"7":["Cinza","#AAAAAA"],"8":["Cinza escuro","#555555"],"9":["Azul","#5555FF"],"a":["Verde","#55FF55"],"b":["Ciano","#55FFFF"],"c":["Vermelho","#FF5555"],"d":["Rosa","#FF55FF"],"e":["Amarelo","#FFFF55"],"f":["Branco","#FFFFFF"]};
+const P={sombrio:[["Sombra","Noite","Cinza","Abismo","Trevas","Corvo","Lobo","Fantasma"],["Sombrio","Mortal","Oculto","Negro","Eterno","Cacador","Vazio","Cinzas"]],
+fofo:[["Pao","Gato","Mel","Nuvem","Bolinho","Panda","Doce","Estrela"],["Fofo","Pulinho","Magico","Feliz","Zinho","Bolota","Macio","Brilho"]],
+epico:[["Rei","Dragao","Tita","Lenda","Mestre","Guerreiro","Trovao","Fenix"],["Supremo","Dourado","Imortal","Infinito","Flamejante","Epico","Real","Furioso"]],
+tech:[["Pixel","Byte","Cyber","Neon","Turbo","Redstone","Nano","Glitch"],["Bot","X","Pro","Core","Zero","Max","Net","Hack"]],
+natureza:[["Floresta","Rio","Pedra","Folha","Raiz","Carvalho","Lago","Vento"],["Verde","Selvagem","Livre","Antigo","Silvestre","Musgo","Aurora","Bosque"]]};
+const $=id=>document.getElementById(id),pick=a=>a[Math.floor(Math.random()*a.length)];
+$("cor").innerHTML=Object.entries(CORES).map(([k,v])=>`<option value="${k}"${k==="b"?" selected":""}>${v[0]}</option>`).join("");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function gerar(){const [a,b]=P[$("estilo").value],f=$("fmt").value,c=$("cor").value,neg=$("neg").checked,out=[];
+ for(let i=0;i<8;i++){let base=pick(a)+pick(b);if(Math.random()<.4)base+=Math.floor(Math.random()*99);
+  const plain=$("pre").value+base+$("suf").value;out.push({plain,code:f+c+(neg?f+"l":"")+plain})}
+ $("res").innerHTML=out.map(o=>`<li><span class="n" style="color:${CORES[c][1]};${neg?"font-weight:700":""}">${esc(o.plain)}</span><span><button class="btn sec sm" data-c="${esc(o.plain)}">Copiar nome</button> <button class="btn sm" data-c="${esc(o.code)}">Copiar com cor</button></span></li>`).join("");
+ pref("nomes",{estilo:$("estilo").value,cor:c,fmt:f})}
+$("res").onclick=e=>{const b=e.target.closest("button");if(b)copiar(b.dataset.c)};
+$("ger").onclick=gerar;
+const s=pref("nomes");if(s){$("estilo").value=s.estilo;$("cor").value=s.cor;$("fmt").value=s.fmt}
+gerar();
+</script></body></html>

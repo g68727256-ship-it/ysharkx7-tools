@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gerador de Paletas de Cores — YSHARKX7 Tools</title><meta name="description" content="Crie paletas de cores com códigos HEX, escolha cores manualmente ou gere aleatórias.">
+<link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap">
+<h1 style="margin-top:36px">Gerador de Paletas de Cores</h1><p style="color:var(--mut)">Toque em uma cor para copiar o HEX. Use os seletores para ajustar manualmente.</p>
+<div class="sw" id="sw"></div><div class="sw" id="pk" style="margin-top:10px"></div>
+<div class="row"><button class="btn" id="rnd">Gerar paleta aleatória</button><button class="btn sec" id="all">Copiar todos os HEX</button></div></main>
+<script src="../script.js"></script>
+<script>
+let C=pref("paleta")||["#8b5cf6","#3b82f6","#22d3ee","#0d1124","#e8ebff"];
+const sw=document.getElementById("sw"),pk=document.getElementById("pk");
+const txt=h=>{const n=parseInt(h.slice(1),16);return ((n>>16)*.299+((n>>8)&255)*.587+(n&255)*.114)>150?"#000":"#fff"};
+function swatches(){sw.innerHTML=C.map((c,i)=>`<div role="button" tabindex="0" data-i="${i}" style="background:${c};color:${txt(c)}" aria-label="Copiar ${c}">${c.toUpperCase()}</div>`).join("");pref("paleta",C)}
+function draw(){swatches();pk.innerHTML=C.map((c,i)=>`<input type="color" data-i="${i}" value="${c}" aria-label="Cor ${i+1}" style="flex:1 1 100px;height:42px;padding:2px">`).join("")}
+sw.onclick=e=>{const d=e.target.closest("[data-i]");if(d)copiar(C[d.dataset.i].toUpperCase())};
+sw.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();sw.onclick(e)}};
+pk.oninput=e=>{C[e.target.dataset.i]=e.target.value;swatches()};
+function hsl(H,S,L){const a=S*Math.min(L,100-L)/10000,f=n=>{const k=(n+H/30)%12;return Math.round(255*(L/100-a*Math.max(-1,Math.min(k-3,9-k,1))))};return "#"+[f(0),f(8),f(4)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+document.getElementById("rnd").onclick=()=>{const h=Math.random()*360,off=[0,30,60,180,210],L=[30,50,62,20,85];
+ C=off.map((o,i)=>hsl((h+o)%360,55+Math.random()*30,L[i]));draw()};
+document.getElementById("all").onclick=()=>copiar(C.map(c=>c.toUpperCase()).join(", "));
+draw();
+</script></body></html>
