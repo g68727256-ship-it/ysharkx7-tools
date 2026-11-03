@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YSHARKX7 Tools — Ferramentas gratuitas para Minecraft Java e Bedrock</title>
+<meta name="description" content="Gerador de nomes, gerador de manifest.json para Bedrock, paletas de cores e guias para Minecraft Java e Bedrock. Grátis e em português.">
+<meta property="og:title" content="YSHARKX7 Tools"><meta property="og:description" content="Ferramentas gratuitas para Minecraft Java e Bedrock."><meta name="theme-color" content="#070914">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛏️</text></svg>">
+<link rel="stylesheet" href="style.css"></head>
+<body data-root="">
+<main class="wrap">
+<section class="hero"><h1>Todas as ferramentas que você precisa para criar, personalizar e melhorar sua experiência no Minecraft.</h1>
+<p>Gratuito, em português e feito para funcionar no celular. Sem cadastro.</p>
+<div class="search"><label for="q" class="sr">Pesquisar ferramentas</label><input id="q" type="search" placeholder="Pesquisar ferramentas (ex.: nomes, manifest, cores)" autocomplete="off"></div>
+<a class="btn" href="#ferramentas">Explorar ferramentas</a></section>
+<h2 id="ferramentas">Ferramentas populares</h2><div class="grid" id="lista"></div><p id="vazio" hidden class="note">Nenhuma ferramenta encontrada. Tente outra palavra.</p>
+<h2 id="categorias">Categorias</h2><div class="grid">
+<a class="card" href="tools/java.html"><div class="ic">☕</div><h3>Minecraft Java Edition</h3><p>Mods, FPS, resource packs, versões e Java no Android.</p></a>
+<a class="card" href="tools/bedrock.html"><div class="ic">🧱</div><h3>Minecraft Bedrock Edition</h3><p>Resource packs, estrutura de pastas, manifest e texturas.</p></a></div>
+<h2 id="tutoriais">Tutoriais</h2><div class="grid">
+<a class="card" href="pages/tutorial-manifest.html"><h3>Como usar o manifest.json</h3><p>Estrutura de pasta e onde colocar o arquivo no Bedrock.</p></a>
+<a class="card" href="tools/java.html#mods"><h3>Instalar mods no Java</h3><p>Loader, versão certa e pasta mods.</p></a><a class="card" href="tools/fps.html"><h3>Otimizar FPS</h3><p>Ajustes para aparelhos fracos e fortes.</p></a></div>
+<div class="ad" aria-label="Espaço reservado para anúncio">Espaço reservado para Google AdSense (inativo)</div>
+</main>
+<script src="script.js"></script>
+<script>
+const L=document.getElementById("lista"),V=document.getElementById("vazio");
+function draw(f){const r=TOOLS.filter(t=>(t.n+t.d+t.t).toLowerCase().includes(f));
+L.innerHTML=r.map(t=>{const b=`<div class="ic">${t.i}</div><h3>${t.n}</h3><p>${t.d}</p><p><span class="tag${t.soon?" soon":""}">${t.soon?"Em breve":t.t}</span></p>`;
+return t.soon?`<div class="card off">${b}</div>`:`<a class="card" href="${t.u}">${b}</a>`}).join("");V.hidden=r.length>0}
+document.getElementById("q").oninput=e=>draw(e.target.value.trim().toLowerCase());draw("");
+</script></body></html>
