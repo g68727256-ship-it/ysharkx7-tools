@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gerador de manifest.json Bedrock — YSHARKX7 Tools</title><meta name="description" content="Gere um manifest.json para resource pack ou behavior pack do Minecraft Bedrock com UUIDs automáticos. Copie ou baixe.">
+<title>Gerador de manifest.json Bedrock — YSHARKX7 Tools</title><link rel="canonical" href="https://g68727256-ship-it.github.io/ysharkx7-tools/tools/manifest.html"><meta name="description" content="Gere um manifest.json para resource pack ou behavior pack do Minecraft Bedrock com UUIDs automáticos. Copie ou baixe.">
 <link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap">
 <h1 style="margin-top:36px">Gerador de manifest.json Bedrock</h1><p style="color:var(--mut)">Gera o arquivo de identificação do seu pack, com UUIDs únicos.</p>
 <div class="tool"><div class="card">
@@ -8,22 +8,30 @@
 <label for="tipo">Tipo de pacote</label><select id="tipo"><option value="resources">Resource Pack (texturas, sons, UI)</option><option value="data">Behavior Pack (comportamentos)</option></select>
 <label for="ver">Versão do pacote</label><input id="ver" value="1.0.0" inputmode="numeric">
 <label for="min">Versão mínima do Minecraft</label><input id="min" value="1.20.0" inputmode="numeric">
+<label for="uh">UUID do cabeçalho</label><input id="uh" spellcheck="false">
+<label for="um">UUID do módulo</label><input id="um" spellcheck="false">
 <div class="row"><button class="btn sec" id="novo">Gerar novos UUIDs</button></div>
-<p class="note">Cada pack precisa de UUIDs únicos. Gere novos para cada pacote e não reutilize os de outros packs.</p></div>
+<label for="dep">Dependência (opcional): UUID de outro pack</label><input id="dep" spellcheck="false" placeholder="Deixe vazio se não houver">
+<label for="dv">Versão da dependência</label><input id="dv" value="1.0.0" inputmode="numeric">
+<p class="note">Cada pack precisa de UUIDs próprios e diferentes entre si. Para atualizar um pack já publicado, mantenha os mesmos UUIDs e aumente a versão. A dependência serve, por exemplo, para ligar um behavior pack a um resource pack.</p></div>
 <div class="card"><h3 style="margin-top:0">manifest.json</h3><pre class="out" id="out" aria-live="polite"></pre>
 <div class="row"><button class="btn" id="cp">Copiar JSON</button><button class="btn sec" id="dl">Baixar manifest.json</button></div>
 <p class="note">Coloque o arquivo na raiz da pasta do pack e teste no seu Minecraft antes de distribuir. Veja o <a href="../pages/tutorial-manifest.html">tutorial</a>.</p></div></div></main>
 <script src="../script.js"></script>
 <script>
-const $=id=>document.getElementById(id);let U={h:uuid(),m:uuid()},cur="";
-function ver(s,n){const p=s.trim().split(".");if(p.length!==3||p.some(x=>!/^\d+$/.test(x)))throw new Error(n+" deve ter o formato 1.0.0 (três números separados por ponto).");return p.map(Number)}
+const $=id=>document.getElementById(id),UR=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;let cur="";
+function ver(s,n){const p=s.trim().split(".");if(p.length!==3||p.some(x=>!/^\d{1,6}$/.test(x)))throw new Error(n+" deve ter o formato 1.0.0 (três números inteiros).");return p.map(Number)}
+function uid(v,n){v=v.trim().toLowerCase();if(!UR.test(v))throw new Error(n+" não é um UUID válido.");return v}
 function montar(){try{const nome=$("nome").value.trim();if(!nome)throw new Error("Informe o nome do pacote.");
- const v=ver($("ver").value,"A versão do pacote"),m=ver($("min").value,"A versão mínima do Minecraft");
- cur=JSON.stringify({format_version:2,header:{name:nome,description:$("desc").value.trim(),uuid:U.h,version:v,min_engine_version:m},modules:[{type:$("tipo").value,uuid:U.m,version:v}]},null,2);
- $("out").textContent=cur;return true}catch(e){$("out").textContent="Erro: "+e.message;cur="";return false}}
-["nome","desc","tipo","ver","min"].forEach(i=>$(i).addEventListener("input",montar));
-$("novo").onclick=()=>{U={h:uuid(),m:uuid()};if(montar())toast("Novos UUIDs gerados.")};
+ const v=ver($("ver").value,"A versão do pacote"),m=ver($("min").value,"A versão mínima do Minecraft"),h=uid($("uh").value,"O UUID do cabeçalho"),mu=uid($("um").value,"O UUID do módulo");
+ if(h===mu)throw new Error("O UUID do cabeçalho e o do módulo devem ser diferentes.");
+ const o={format_version:2,header:{name:nome,description:$("desc").value.trim(),uuid:h,version:v,min_engine_version:m},modules:[{type:$("tipo").value,uuid:mu,version:v}]};
+ if($("dep").value.trim()){const d=uid($("dep").value,"O UUID da dependência");if(d===h)throw new Error("A dependência não pode ser o próprio pack.");o.dependencies=[{uuid:d,version:ver($("dv").value,"A versão da dependência")}]}
+ cur=JSON.stringify(o,null,2);JSON.parse(cur);$("out").textContent=cur;$("out").style.color="";return true}
+ catch(e){$("out").textContent="Erro: "+e.message;$("out").style.color="var(--er)";cur="";return false}}
+["nome","desc","tipo","ver","min","uh","um","dep","dv"].forEach(i=>$(i).addEventListener("input",montar));
+$("novo").onclick=()=>{$("uh").value=uuid();$("um").value=uuid();if(montar())toast("Novos UUIDs gerados.")};
 $("cp").onclick=()=>{if(montar())copiar(cur);else toast("Corrija os campos antes de copiar.",1)};
 $("dl").onclick=()=>{if(montar())baixar("manifest.json",cur);else toast("Corrija os campos antes de baixar.",1)};
-montar();
+$("uh").value=uuid();$("um").value=uuid();montar();
 </script></body></html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Central Minecraft Bedrock — YSHARKX7 Tools</title><link rel="canonical" href="https://g68727256-ship-it.github.io/ysharkx7-tools/tools/bedrock.html"><meta name="description" content="Guias para criar e instalar packs no Minecraft Bedrock Edition."><link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap prose">
+<h1>Central Minecraft Bedrock</h1><p style="color:var(--mut)">Guias para criar e instalar packs no Minecraft Bedrock Edition.</p>
+
+<p class="note">Os caminhos e recursos mudam entre plataformas (Android, Windows, consoles) e versões. Teste no seu aparelho e consulte a <a href="https://learn.microsoft.com/minecraft/creator/" rel="noopener">documentação oficial da Microsoft para criadores</a>.</p>
+<details open><summary>Estrutura de pastas de um resource pack</summary><div><pre class="out">MeuPack/
+├─ manifest.json
+├─ pack_icon.png
+├─ textures/
+│  ├─ blocks/
+│  ├─ items/
+│  ├─ entity/
+│  └─ ui/
+└─ texts/ (opcional)</pre><p>O <code>manifest.json</code> fica na raiz da pasta. Para um behavior pack a estrutura é outra (entities, scripts etc.).</p></div></details>
+<details><summary>Criar o manifest.json</summary><div><p>Use o <a href="manifest.html">Gerador de Manifest</a>: ele cria os UUIDs e o JSON. Cada pack precisa de UUIDs próprios.</p></div></details>
+<details><summary>Instalar um resource pack</summary><div><ol><li>Compacte o conteúdo da pasta (manifest na raiz do zip) e renomeie para <code>.mcpack</code>, ou copie a pasta para <code>development_resource_packs</code> dentro de <code>com.mojang</code>.</li><li>Abra o arquivo .mcpack com o Minecraft, quando a plataforma permitir, para importar.</li><li>Ative em Configurações &gt; Recursos globais (ou no mundo, em Recursos).</li></ol><p>Em alguns Androids recentes o acesso à pasta com.mojang é restrito pelo sistema. Se não conseguir, use a importação por .mcpack.</p></div></details>
+<details><summary>Texturas e interfaces</summary><div><ul><li>Texturas são PNG. Mantenha resolução em potência de 2 (16x, 32x, 64x...).</li><li>Texturas de blocos novas ou trocadas precisam ser listadas em <code>textures/terrain_texture.json</code>, e as de itens em <code>item_texture.json</code>.</li><li>Interfaces usam arquivos JSON na pasta <code>ui</code>. Erros nesses arquivos podem quebrar telas: trabalhe com cópia de segurança.</li></ul></div></details>
+<details><summary>Converter texturas Java para Bedrock</summary><div><p>Não há conversão automática garantida. O que costuma ser necessário:</p><ul><li>Renomear pastas: Java usa <code>textures/block</code> e <code>textures/item</code>; Bedrock usa <code>textures/blocks</code> e <code>textures/items</code>.</li><li>Alguns arquivos têm nomes diferentes entre as edições, e precisam ser renomeados um a um.</li><li>Criar o <code>manifest.json</code> (Java usa <code>pack.mcmeta</code>) e registrar as texturas nos arquivos JSON de lista.</li><li>Interface, sons e modelos não são compatíveis diretamente.</li></ul></div></details>
+<div class="ad" aria-label="Espaço reservado para anúncio">Espaço reservado para Google AdSense (inativo)</div></main><script src="../script.js"></script></body></html>

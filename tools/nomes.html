@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gerador de Nomes Minecraft com Cores — YSHARKX7 Tools</title><meta name="description" content="Gere nomes para Minecraft com estilos, prefixos, sufixos e códigos de cor (§ e &). Copie com um toque.">
+<title>Gerador de Nomes Minecraft com Cores — YSHARKX7 Tools</title><link rel="canonical" href="https://g68727256-ship-it.github.io/ysharkx7-tools/tools/nomes.html"><meta name="description" content="Gere nomes para Minecraft com estilos, prefixos, sufixos e códigos de cor (§ e &). Copie com um toque.">
 <link rel="stylesheet" href="../style.css"></head><body data-root="../"><main class="wrap">
 <h1 style="margin-top:36px">Gerador de Nomes Minecraft</h1><p style="color:var(--mut)">Escolha um estilo, personalize e copie. A prévia mostra a cor escolhida.</p>
 <div class="tool"><div class="card">
@@ -8,9 +8,9 @@
 <label for="suf">Sufixo (opcional)</label><input id="suf" maxlength="10" placeholder="Ex.: 07">
 <label for="cor">Cor</label><select id="cor"></select>
 <label for="fmt">Formato do código de cor</label><select id="fmt"><option value="§">§ (padrão do jogo)</option><option value="&">&amp; (plugins e servidores)</option></select>
-<label><input type="checkbox" id="neg" style="width:auto"> Negrito (l)</label>
+<label><input type="checkbox" id="neg" style="width:auto"> Negrito (código l)</label><label><input type="checkbox" id="ita" style="width:auto"> Itálico (código o)</label>
 <div class="row"><button class="btn" id="ger">Gerar novos nomes</button></div>
-<p class="note">Nomes de conta Java têm limite de 16 caracteres e não aceitam códigos de cor. Os códigos servem para chat, placas, MOTD e plugins que os suportem.</p></div>
+<details><summary>Limitações de formatação</summary><div><ul><li>Códigos de cor não funcionam em nomes de conta (Java ou Bedrock): só em chat, placas, livros, MOTD de servidor, nomes de itens renomeados e onde o servidor ou plugin os aceitar.</li><li>O símbolo § é o padrão do jogo. O &amp; é usado por plugins e servidores, que o convertem em §.</li><li>Nome de conta Java: 3 a 16 caracteres, só letras, números e _.</li><li>Itálico e negrito aparecem no Java e no Bedrock. Sublinhado e tachado existem no Java; confira no seu jogo e versão antes de usar no Bedrock.</li><li>O Bedrock tem algumas cores extras além das 16 clássicas, não incluídas aqui.</li></ul></div></details></div>
 <div class="card"><h3 style="margin-top:0">Resultados</h3><ul class="names" id="res"></ul></div></div></main>
 <script src="../script.js"></script>
 <script>
@@ -23,10 +23,10 @@ natureza:[["Floresta","Rio","Pedra","Folha","Raiz","Carvalho","Lago","Vento"],["
 const $=id=>document.getElementById(id),pick=a=>a[Math.floor(Math.random()*a.length)];
 $("cor").innerHTML=Object.entries(CORES).map(([k,v])=>`<option value="${k}"${k==="b"?" selected":""}>${v[0]}</option>`).join("");
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function gerar(){const [a,b]=P[$("estilo").value],f=$("fmt").value,c=$("cor").value,neg=$("neg").checked,out=[];
+function gerar(){const [a,b]=P[$("estilo").value],f=$("fmt").value,c=$("cor").value,neg=$("neg").checked,ita=$("ita").checked,out=[];
  for(let i=0;i<8;i++){let base=pick(a)+pick(b);if(Math.random()<.4)base+=Math.floor(Math.random()*99);
-  const plain=$("pre").value+base+$("suf").value;out.push({plain,code:f+c+(neg?f+"l":"")+plain})}
- $("res").innerHTML=out.map(o=>`<li><span class="n" style="color:${CORES[c][1]};${neg?"font-weight:700":""}">${esc(o.plain)}</span><span><button class="btn sec sm" data-c="${esc(o.plain)}">Copiar nome</button> <button class="btn sm" data-c="${esc(o.code)}">Copiar com cor</button></span></li>`).join("");
+  const plain=$("pre").value+base+$("suf").value;out.push({plain,code:f+c+(neg?f+"l":"")+(ita?f+"o":"")+plain})}
+ $("res").innerHTML=out.map(o=>`<li><span class="n" style="color:${CORES[c][1]};${neg?"font-weight:700;":""}${ita?"font-style:italic":""}">${esc(o.plain)}</span>${/^\w{3,16}$/.test(o.plain)?"":"<span class=\"warn\">Fora do limite de conta Java (3 a 16; letras, números e _)</span>"}<span><button class="btn sec sm" data-c="${esc(o.plain)}">Copiar nome</button> <button class="btn sm" data-c="${esc(o.code)}">Copiar com cor</button></span></li>`).join("");
  pref("nomes",{estilo:$("estilo").value,cor:c,fmt:f})}
 $("res").onclick=e=>{const b=e.target.closest("button");if(b)copiar(b.dataset.c)};
 $("ger").onclick=gerar;
