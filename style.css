@@ -43,3 +43,5 @@ details{background:var(--card);border:1px solid var(--line);border-radius:14px;m
 summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none}summary::after{content:"+";float:right;color:var(--cy)}details[open] summary::after{content:"–"}
 details[open]{border-color:var(--pu)}details>div{padding:0 0 14px;color:var(--mut)}details li,details p{margin:6px 0}details code{color:var(--cy)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button{flex:0 0 auto}.tabs .on{outline:2px solid var(--cy)}
+
+[hidden]{display:none!important}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.warn{color:var(--er);font-size:.78rem;display:block}

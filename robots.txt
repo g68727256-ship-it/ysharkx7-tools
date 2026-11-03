@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://g68727256-ship-it.github.io/ysharkx7-tools/sitemap.xml

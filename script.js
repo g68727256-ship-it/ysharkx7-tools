@@ -1,9 +1,10 @@
 /* YSHARKX7 Tools - núcleo comum: cabeçalho, rodapé, toast, copiar, baixar */
 const R = document.body.dataset.root || "";
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const TOOLS = [
-  {n:"Gerador de Nomes",d:"Nomes com estilos, prefixos e códigos de cor.",u:"tools/nomes.html",i:"✨",t:"Java e Bedrock"},
-  {n:"Gerador de Manifest Bedrock",d:"manifest.json válido com UUIDs automáticos.",u:"tools/manifest.html",i:"📦",t:"Bedrock"},
-  {n:"Paletas de Cores",d:"Paletas aleatórias ou manuais com HEX.",u:"tools/paletas.html",i:"🎨",t:"Java e Bedrock"},
+  {n:"Gerador de Nomes",d:"Nomes com estilos, prefixos e códigos de cor.",u:"tools/nomes.html",i:"✨",t:"Java e Bedrock",k:"nick apelido gamertag cores"},
+  {n:"Gerador de Manifest Bedrock",d:"manifest.json válido com UUIDs automáticos.",u:"tools/manifest.html",i:"📦",t:"Bedrock",k:"json uuid addon pack"},
+  {n:"Paletas de Cores",d:"Paletas aleatórias ou manuais com HEX.",u:"tools/paletas.html",i:"🎨",t:"Java e Bedrock",k:"cor hex paleta"},
   {n:"Central Minecraft Java",d:"Mods, FPS, resource packs, versões.",u:"tools/java.html",i:"☕",t:"Java"},
   {n:"Central Minecraft Bedrock",d:"Estrutura de pastas, texturas, conversão.",u:"tools/bedrock.html",i:"🧱",t:"Bedrock"},
   {n:"Guia de otimização de FPS",d:"Configurações para Java e Bedrock.",u:"tools/fps.html",i:"⚡",t:"Java e Bedrock"}
@@ -17,9 +18,11 @@ function uuid(){if(crypto.randomUUID)return crypto.randomUUID();const b=crypto.g
 function pref(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem("y7_"+k));localStorage.setItem("y7_"+k,JSON.stringify(v))}catch(e){return null}}
 document.body.insertAdjacentHTML("afterbegin",`<header class="top"><div class="wrap bar"><a class="logo" href="${R}index.html">YSHARKX7 <b>Tools</b></a>
 <button id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
-<nav id="nav" aria-label="Principal"><ul><li><a href="${R}index.html#ferramentas">Ferramentas</a></li><li><a href="${R}index.html#categorias">Categorias</a></li><li><a href="${R}index.html#tutoriais">Tutoriais</a></li><li><a href="${R}pages/contato.html">Contato</a></li></ul></nav></div></header>`);
+<nav id="nav" aria-label="Principal"><ul><li><a href="${R}index.html#ferramentas">Ferramentas</a></li><li><a href="${R}index.html#categorias">Categorias</a></li><li><a href="${R}index.html#tutoriais">Tutoriais</a></li><li><a href="${R}pages/sobre.html">Sobre</a></li><li><a href="${R}pages/contato.html">Contato</a></li></ul></nav></div></header>`);
 document.body.insertAdjacentHTML("beforeend",`<footer><div class="wrap"><p><b>YSHARKX7 Tools</b> — ferramentas gratuitas para Minecraft. Projeto independente, não afiliado à Mojang Studios nem à Microsoft. Minecraft é marca registrada de seus respectivos donos.</p>
-<a href="${R}pages/privacidade.html">Privacidade</a><a href="${R}pages/termos.html">Termos de uso</a><a href="${R}pages/contato.html">Contato</a></div></footer>`);
+<a href="${R}pages/privacidade.html">Privacidade</a><a href="${R}pages/termos.html">Termos de uso</a><a href="${R}pages/sobre.html">Sobre</a><a href="${R}pages/contato.html">Contato</a></div></footer>`);
 const mb=document.getElementById("menuBtn"),nv=document.getElementById("nav");
 mb.onclick=()=>{const o=nv.classList.toggle("open");mb.setAttribute("aria-expanded",o)};
 nv.onclick=e=>{if(e.target.tagName==="A")nv.classList.remove("open")};
+
+if(!document.querySelector("link[rel=icon]"))document.head.insertAdjacentHTML("beforeend",'<link rel="icon" href="data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>⛏️</text></svg>">');

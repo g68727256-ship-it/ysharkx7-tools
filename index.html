@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YSHARKX7 Tools — Ferramentas gratuitas para Minecraft Java e Bedrock</title>
+<title>YSHARKX7 Tools — Ferramentas gratuitas para Minecraft Java e Bedrock</title><link rel="canonical" href="https://g68727256-ship-it.github.io/ysharkx7-tools/index.html">
 <meta name="description" content="Gerador de nomes, gerador de manifest.json para Bedrock, paletas de cores e guias para Minecraft Java e Bedrock. Grátis e em português.">
 <meta property="og:title" content="YSHARKX7 Tools"><meta property="og:description" content="Ferramentas gratuitas para Minecraft Java e Bedrock."><meta name="theme-color" content="#070914">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛏️</text></svg>">
@@ -10,7 +10,7 @@
 <p>Gratuito, em português e feito para funcionar no celular. Sem cadastro.</p>
 <div class="search"><label for="q" class="sr">Pesquisar ferramentas</label><input id="q" type="search" placeholder="Pesquisar ferramentas (ex.: nomes, manifest, cores)" autocomplete="off"></div>
 <a class="btn" href="#ferramentas">Explorar ferramentas</a></section>
-<h2 id="ferramentas">Ferramentas populares</h2><div class="grid" id="lista"></div><p id="vazio" hidden class="note">Nenhuma ferramenta encontrada. Tente outra palavra.</p>
+<h2 id="ferramentas">Ferramentas populares</h2><div class="grid" id="lista"></div><p id="vazio" hidden class="note" role="status">Nenhuma ferramenta encontrada. Tente outra palavra.</p>
 <h2 id="categorias">Categorias</h2><div class="grid">
 <a class="card" href="tools/java.html"><div class="ic">☕</div><h3>Minecraft Java Edition</h3><p>Mods, FPS, resource packs, versões e Java no Android.</p></a>
 <a class="card" href="tools/bedrock.html"><div class="ic">🧱</div><h3>Minecraft Bedrock Edition</h3><p>Resource packs, estrutura de pastas, manifest e texturas.</p></a></div>
@@ -22,8 +22,8 @@
 <script src="script.js"></script>
 <script>
 const L=document.getElementById("lista"),V=document.getElementById("vazio");
-function draw(f){const r=TOOLS.filter(t=>(t.n+t.d+t.t).toLowerCase().includes(f));
+function draw(f){const r=TOOLS.filter(t=>norm(t.n+" "+t.d+" "+t.t+" "+(t.k||"")).includes(f));
 L.innerHTML=r.map(t=>{const b=`<div class="ic">${t.i}</div><h3>${t.n}</h3><p>${t.d}</p><p><span class="tag${t.soon?" soon":""}">${t.soon?"Em breve":t.t}</span></p>`;
 return t.soon?`<div class="card off">${b}</div>`:`<a class="card" href="${t.u}">${b}</a>`}).join("");V.hidden=r.length>0}
-document.getElementById("q").oninput=e=>draw(e.target.value.trim().toLowerCase());draw("");
+document.getElementById("q").oninput=e=>draw(norm(e.target.value.trim()));draw("");
 </script></body></html>
