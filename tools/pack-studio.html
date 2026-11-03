@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YSHARKX7 Pack Studio — Editor de pacotes de textura Minecraft</title>
+<meta name="description" content="Crie, edite e exporte pacotes de textura para Minecraft Bedrock no navegador: importe ZIP, edite PNG, gere manifest.json, valide e exporte .zip ou .mcpack.">
+<link rel="canonical" href="https://g68727256-ship-it.github.io/ysharkx7-tools/tools/pack-studio.html">
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../css/pack-studio.css"></head><body data-root="../"><main class="wrap">
+<div class="psh"><h1>YSHARKX7 Pack Studio</h1><p>Seu mundo. Suas texturas. Seu estilo.</p></div>
+<div class="pbar"><b id="pname">Nenhum projeto aberto</b><span id="st">Os projetos ficam salvos só neste navegador.</span></div>
+<div class="ps"><div class="side" id="side">
+<button data-p="inicio" class="on">🏠 Início</button><button data-p="arquivos">📁 Arquivos</button><button data-p="editor">🖼️ Editor de imagem</button><button data-p="manifest">📦 Manifest</button><button data-p="conversor">🔁 Java → Bedrock</button><button data-p="validador">✅ Validador</button><button data-p="extras">🧰 Extras</button><button data-p="exportar">⬇️ Exportar</button></div>
+<div>
+<section class="pp on" id="p-inicio">
+<div class="card"><h3>Novo projeto</h3><label for="pn">Nome do projeto</label><input id="pn" maxlength="50" placeholder="Meu pack">
+<p style="color:var(--mut);font-size:.9rem">Escolha um modelo. Ele cria a estrutura de pastas e o manifest.json; as texturas você adiciona. Não há texturas prontas incluídas.</p><div class="grid" id="tpls"></div></div>
+<div class="card"><h3>Importar pacote (.zip ou .mcpack)</h3><input type="file" id="pimp" accept=".zip,.mcpack"><p class="note" style="margin-top:10px">A leitura acontece no seu aparelho; nada é enviado para a internet. Pacotes muito grandes podem travar celulares fracos.</p></div>
+<div class="card"><h3>Projetos recentes</h3><div id="rec"></div></div></section>
+<section class="pp" id="p-arquivos"><div class="card">
+<div class="mini"><label for="ftarget">Adicionar em:</label><select id="ftarget" style="flex:1"></select></div>
+<div class="row"><label class="btn sec sm" style="margin:0">Adicionar arquivos<input type="file" id="fadd" multiple hidden></label><button class="btn sec sm" id="fdir">Nova pasta</button></div>
+<input id="fq" placeholder="Filtrar arquivos…" aria-label="Filtrar arquivos"><div class="fl" id="fl"></div>
+<p class="note" style="margin-top:10px">Pastas vazias existem só na tela e não vão no ZIP exportado. Confira os nomes exatos dos arquivos originais do jogo ao substituir texturas.</p></div>
+<div class="card" id="fd"></div><input type="file" id="frep" hidden></section>
+<section class="pp" id="p-editor"><div class="card"><h3>Editor de imagem</h3>
+<div class="row"><label class="btn sec sm" style="margin:0">Abrir PNG do aparelho<input type="file" id="eopen" accept="image/png,image/*" hidden></label><span style="color:var(--mut);font-size:.9rem">ou use "Editar imagem" na aba Arquivos.</span></div>
+<div id="edwrap" hidden>
+<p id="einfo"></p>
+<div class="mini"><label for="ezoom">Zoom</label><input type="range" id="ezoom" min="1" max="32" value="8" style="width:160px"><label><input type="checkbox" id="egrid" style="width:auto" checked> Grade de pixels</label><label><input type="checkbox" id="ecmp" style="width:auto"> Antes e depois</label></div>
+<div class="cvs"><div><small>Atual</small><br><div class="gw" id="gw1"><canvas id="ecv"></canvas></div></div><div id="bwrap" hidden><small>Original</small><br><div class="gw" id="gw2"><canvas id="ecvb"></canvas></div></div></div>
+<h3>Redimensionar</h3><div class="mini"><select id="rpre"><option value="">Tamanho…</option><option>16</option><option>32</option><option>64</option><option>128</option><option>256</option></select><input type="number" id="rw" min="1" max="4096"><span>×</span><input type="number" id="rh" min="1" max="4096"><select id="rmode"><option value="pixel">Pixel (nítido)</option><option value="smooth">Suave</option></select><label><input type="checkbox" id="rkeep" style="width:auto" checked> Manter proporção</label><button class="btn sm" id="eres">Redimensionar</button></div>
+<h3>Recortar (em pixels)</h3><div class="mini"><label>X<input type="number" id="cx" min="0" value="0"></label><label>Y<input type="number" id="cy" min="0" value="0"></label><label>Larg.<input type="number" id="cw" min="1"></label><label>Alt.<input type="number" id="ch" min="1"></label><button class="btn sm" id="ecrop">Recortar</button></div>
+<div class="row"><button class="btn sec" id="eundo">Desfazer</button><button class="btn sec" id="ereset">Restaurar original</button><button class="btn" id="esave">Salvar no projeto</button><button class="btn sec" id="edl">Baixar PNG</button></div></div></div></section>
+<section class="pp" id="p-manifest"><div class="card"><h3>Gerador de manifest.json (Bedrock)</h3>
+<div class="tool"><div><label for="mn">Nome</label><input id="mn" maxlength="60"><label for="md">Descrição</label><textarea id="md" rows="2" maxlength="160"></textarea><label for="ma">Autor (opcional)</label><input id="ma" maxlength="40">
+<label for="mt">Tipo de módulo</label><select id="mt"><option value="resources">Resource pack (resources)</option><option value="data">Behavior pack (data)</option></select>
+<label for="mv">Versão do pacote</label><input id="mv" value="1.0.0" inputmode="numeric"><label for="mm">Versão mínima do Minecraft</label><input id="mm" value="1.20.0" inputmode="numeric">
+<label for="uh">UUID do cabeçalho</label><input id="uh" spellcheck="false"><label for="um">UUID do módulo</label><input id="um" spellcheck="false"><div class="row"><button class="btn sec" id="mnew">Gerar novos UUIDs</button></div>
+<label for="mdep">Dependência (opcional): UUID</label><input id="mdep" spellcheck="false"><label for="mdv">Versão da dependência</label><input id="mdv" value="1.0.0" inputmode="numeric"><p id="mico" class="note"></p></div>
+<div><pre class="out" id="mo"></pre><div class="row"><button class="btn" id="mapp">Aplicar ao projeto</button><button class="btn sec" id="mload">Carregar do projeto</button><button class="btn sec" id="mcp">Copiar</button><button class="btn sec" id="mdl">Baixar</button></div></div></div></div></section>
+<section class="pp" id="p-conversor"><div class="card"><h3>Conversor Java → Bedrock (assistente)</h3>
+<p class="note">Reorganiza as pastas de um pacote Java importado e gera um relatório. Não é uma conversão perfeita: nomes de arquivo, modelos, animações, sons e idiomas precisam de adaptação manual.</p>
+<div class="mini"><label for="cmin">Versão mínima do Minecraft (manifest)</label><input id="cmin" value="1.20.0"></div>
+<div class="row"><button class="btn sec" id="cana">Analisar pacote</button><button class="btn" id="ccre">Criar projeto Bedrock</button><button class="btn sec" id="cdl">Baixar relatório (.txt)</button></div><pre class="out" id="crep">Importe um pacote Java na aba Início e clique em Analisar.</pre></div></section>
+<section class="pp" id="p-validador"><div class="card"><h3>Validador de pacotes</h3><div class="mini"><select id="vt"><option value="auto">Detectar automaticamente</option><option value="bedrock">Bedrock</option><option value="java">Java</option></select><button class="btn" id="vrun">Validar</button></div><div class="vr" id="vr"></div><p class="note" style="margin-top:10px">A validação confere estrutura e campos conhecidos. Ela não garante que o jogo aceite o pacote: teste sempre no Minecraft.</p></div></section>
+<section class="pp" id="p-extras">
+<div class="card"><h3>Gerador de UUID</h3><div class="mini"><input id="xu" readonly style="flex:1"><button class="btn sec sm" id="xun">Novo</button><button class="btn sm" id="xuc">Copiar</button></div></div>
+<div class="card"><h3>pack.mcmeta (Java)</h3><div class="mini"><label for="xf">pack_format</label><input type="number" id="xf" min="1" value="15"><input id="xd" placeholder="Descrição" style="flex:1"></div><p class="note">O pack_format depende da versão do jogo: confira em <a href="https://minecraft.wiki/w/Pack_format" rel="noopener">minecraft.wiki/w/Pack_format</a>.</p><pre class="out" id="xo"></pre><div class="row"><button class="btn sm" id="xmadd">Adicionar ao projeto</button><button class="btn sec sm" id="xmcp">Copiar</button><button class="btn sec sm" id="xmdl">Baixar</button></div></div>
+<div class="card"><h3>Gerador de ícone</h3><input type="file" id="xi" accept="image/*"><div class="mini" style="margin-top:8px"><select id="xit"><option value="pack_icon.png">pack_icon.png (Bedrock)</option><option value="pack.png">pack.png (Java)</option></select><button class="btn sm" id="xiapp">Aplicar ao projeto</button></div><canvas id="xic" width="128" height="128" style="margin-top:8px;border-radius:8px;display:none"></canvas></div>
+<div class="card"><h3>Organizador de nomes</h3><p class="note">Troca nomes para minúsculas e espaços por "_" (nomes seguros para o jogo).</p><button class="btn sm" id="xorg">Organizar nomes do projeto</button></div></section>
+<section class="pp" id="p-exportar"><div class="card"><h3>Exportar</h3><p class="note">O .mcpack é o mesmo ZIP com outra extensão, e o Minecraft Bedrock o abre para importar. Antes de exportar, rode o Validador. O .mcaddon ainda não está disponível.</p><div class="row"><button class="btn" id="ezip">Exportar .zip</button><button class="btn" id="empk">Exportar .mcpack</button></div><div class="vr" id="ev"></div></div></section>
+</div></div></main>
+<script src="../script.js"></script><script src="../js/ps-core.js"></script><script src="../js/ps-ui.js"></script></body></html>
